@@ -1,16 +1,12 @@
 import XCTest
-@testable import Plugin
+@testable import InAppReviewPlugin
 
 class InAppReviewTests: XCTestCase {
+    func testPluginIsBridgedUnderItsJavaScriptName() {
+        let plugin = InAppReviewPlugin()
 
-    func testEcho() {
-        // This is an example of a functional test case for a plugin.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-
-        let implementation = InAppReview()
-        let value = "Hello, World!"
-        let result = implementation.echo(value)
-
-        XCTAssertEqual(value, result)
+        XCTAssertEqual(plugin.identifier, "InAppReviewPlugin")
+        XCTAssertEqual(plugin.jsName, "InAppReview")
+        XCTAssertEqual(plugin.pluginMethods.map(\.name), ["requestReview"])
     }
 }
