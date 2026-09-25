@@ -10,13 +10,13 @@ public class InAppReviewPlugin: CAPPlugin, CAPBridgedPlugin {
     public let identifier = "InAppReviewPlugin"
     public let jsName = "InAppReview"
     public let pluginMethods: [CAPPluginMethod] = [
-        CAPPluginMethod(name: "requestReview", returnType: .promise)
+        .async("requestReview", InAppReviewPlugin.requestReview)
     ]
     private let implementation = InAppReview()
 
-    @objc func requestReview(_ call: CAPPluginCall) {
-        implementation.requestReview(call)
-
-        call.resolve()
+    /// The window scenes are UIKit state: the method runs on the main actor. It resolves once the prompt is requested.
+    @MainActor
+    func requestReview(_ call: CAPPluginCall) async {
+        implementation.requestReview()
     }
 }
